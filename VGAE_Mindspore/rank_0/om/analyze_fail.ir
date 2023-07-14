@@ -1,0 +1,352 @@
+# 1.This file shows the parsed IR info when graph evaluating failed to help find the problem.
+# 2.You can search the last `------------------------>` to the node which is inferred failed.
+# 3.Refer to https://www.mindspore.cn/search?inputValue=analyze_fail.ir to get more instructions.
+# ===============================================================================
+
+subgraph attr:
+subgraph instance: construct.Default.1 : 0x3c414370
+# In file /home/wmq/codelab/VGAE/VGAE.py:32/    def construct(self, x, adj):/
+subgraph @construct.Default.1(%para1_x, %para2_adj, %para3_decoder.0.bias, %para4_decoder.0.weight, %para5_decoder.2.bias, %para6_decoder.2.weight, %para7_encoder.0.bias, %para8_encoder.0.weight, %para9_encoder.2.bias, %para10_encoder.2.weight, %para11_encoder.4.bias, %para12_encoder.4.weight) {
+  %1([CNode]11) = S-Prim-negative(F32(0.5))
+      : (<Float32, NoShape>) -> (<Float32, NoShape>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+
+#------------------------> 0
+  %2([CNode]12) = call @construct.SequentialCell.5(%para1_x)
+      : (<Tuple[Tensor[Float64],Tensor[Int64]], TupleShape((80, 50), (80, 100))>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %3([CNode]13) = getattr(%2, "chunk")
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %4([CNode]14) = S-Prim-MakeTuple(I64(2))
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %5([CNode]15) = S-Prim-MakeTuple("axis")
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %6([CNode]16) = S-Prim-MakeTuple(I64(1))
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %7([CNode]17) = S-Prim-make_dict(%5, %6)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %8([CNode]18) = UnpackCall-unpack_call(%3, %4, %7)
+      : (<null>, <null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %9(z_log_var) = S-Prim-getitem(%8, I64(1))
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %10([CNode]19) = S-Prim-add(I64(1), %9)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %11(z_mean) = S-Prim-getitem(%8, I64(0))
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %12([CNode]20) = S-Prim-pow(%11, I64(2))
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %13([CNode]21) = S-Prim-sub(%10, %12)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %14([CNode]22) = S-Prim-Exp[output_names=["y"], shift=F32(0), scale=F32(1), input_names=["x"], base=F32(-1)](%9)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %15([CNode]23) = S-Prim-sub(%13, %14)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %16([CNode]24) = S-Prim-ReduceMean[output_names=["y"], keep_dims=Bool(1), input_names=["input_x", "axis"]](%15)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %17(kl_loss) = S-Prim-mul(%1, %16)
+      : (<Float32, NoShape>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:41/        kl_loss = -0.5 * self.mean(1 + z_log_var - z_mean**2 - self.exp(z_log_var))/
+  %18([CNode]25) = ClassType()
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:42/        reconstruction_loss = P.SigmoidCrossEntropyWithLogits()(pred_adj, adj)/
+  %19([CNode]26) = S-Prim-Exp[output_names=["y"], shift=F32(0), scale=F32(1), input_names=["x"], base=F32(-1)](%9)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:34/        z_stddev = self.sqrt(self.exp(z_log_var))/
+  %20(z_stddev) = S-Prim-Sqrt[output_names=["output"], input_names=["x"]](%19)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:34/        z_stddev = self.sqrt(self.exp(z_log_var))/
+  %21([CNode]27) = ClassType()
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:36/        eps = P.StandardNormal()(z_mean.shape)/
+  %22([CNode]28) = getattr(%11, "shape")
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:36/        eps = P.StandardNormal()(z_mean.shape)/
+  %23(eps) = %21(%22)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:36/        eps = P.StandardNormal()(z_mean.shape)/
+  %24([CNode]29) = S-Prim-mul(%20, %23)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:37/        z = z_mean + z_stddev * eps/
+  %25(z) = S-Prim-add(%11, %24)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:37/        z = z_mean + z_stddev * eps/
+  %26(pred_adj) = call @construct.SequentialCell.30(%25)
+      : (<null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:39/        pred_adj = self.decoder(z)/
+  %27(reconstruction_loss) = %18(%26, %para2_adj)
+      : (<null>, <Tensor[Int64], (100, 100)>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:42/        reconstruction_loss = P.SigmoidCrossEntropyWithLogits()(pred_adj, adj)/
+  %28([CNode]31) = S-Prim-add(%17, %27)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:44/        return kl_loss + reconstruction_loss/
+  Return(%28)
+      : (<null>)
+      #scope: (Default)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:44/        return kl_loss + reconstruction_loss/
+}
+# order:
+#   1: @construct.Default.1:[CNode]12{[0]: ValueNode<FuncGraph> construct.SequentialCell.5, [1]: x}
+#   2: @construct.Default.1:[CNode]13{[0]: ValueNode<Primitive> getattr, [1]: [CNode]12, [2]: ValueNode<StringImm> chunk}
+#   3: @construct.Default.1:[CNode]14{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<Int64Imm> 2}
+#   4: @construct.Default.1:[CNode]15{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> axis}
+#   5: @construct.Default.1:[CNode]16{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<Int64Imm> 1}
+#   6: @construct.Default.1:[CNode]17{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]15, [2]: [CNode]16}
+#   7: @construct.Default.1:[CNode]18{[0]: ValueNode<UnpackCall> MetaFuncGraph-unpack_call.32, [1]: [CNode]13, [2]: [CNode]14, [3]: [CNode]17}
+#   8: @construct.Default.1:z_mean{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]18, [2]: ValueNode<Int64Imm> 0}
+#   9: @construct.Default.1:z_log_var{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]18, [2]: ValueNode<Int64Imm> 1}
+#  10: @construct.Default.1:[CNode]26{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Exp, [1]: z_log_var}
+#  11: @construct.Default.1:z_stddev{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Sqrt, [1]: [CNode]26}
+#  12: @construct.Default.1:[CNode]27{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.random_ops.StandardNormal'}
+#  13: @construct.Default.1:[CNode]28{[0]: ValueNode<Primitive> getattr, [1]: z_mean, [2]: ValueNode<StringImm> shape}
+#  14: @construct.Default.1:eps{[0]: [CNode]27, [1]: [CNode]28}
+#  15: @construct.Default.1:[CNode]29{[0]: ValueNode<DoSignaturePrimitive> S-Prim-mul, [1]: z_stddev, [2]: eps}
+#  16: @construct.Default.1:z{[0]: ValueNode<DoSignaturePrimitive> S-Prim-add, [1]: z_mean, [2]: [CNode]29}
+#  17: @construct.Default.1:pred_adj{[0]: ValueNode<FuncGraph> construct.SequentialCell.30, [1]: z}
+#  18: @construct.Default.1:[CNode]11{[0]: ValueNode<DoSignaturePrimitive> S-Prim-negative, [1]: ValueNode<FP32Imm> 0.5}
+#  19: @construct.Default.1:[CNode]19{[0]: ValueNode<DoSignaturePrimitive> S-Prim-add, [1]: ValueNode<Int64Imm> 1, [2]: z_log_var}
+#  20: @construct.Default.1:[CNode]20{[0]: ValueNode<DoSignaturePrimitive> S-Prim-pow, [1]: z_mean, [2]: ValueNode<Int64Imm> 2}
+#  21: @construct.Default.1:[CNode]21{[0]: ValueNode<DoSignaturePrimitive> S-Prim-sub, [1]: [CNode]19, [2]: [CNode]20}
+#  22: @construct.Default.1:[CNode]22{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Exp, [1]: z_log_var}
+#  23: @construct.Default.1:[CNode]23{[0]: ValueNode<DoSignaturePrimitive> S-Prim-sub, [1]: [CNode]21, [2]: [CNode]22}
+#  24: @construct.Default.1:[CNode]24{[0]: ValueNode<DoSignaturePrimitive> S-Prim-ReduceMean, [1]: [CNode]23}
+#  25: @construct.Default.1:kl_loss{[0]: ValueNode<DoSignaturePrimitive> S-Prim-mul, [1]: [CNode]11, [2]: [CNode]24}
+#  26: @construct.Default.1:[CNode]25{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.nn_ops.SigmoidCrossEntropyWithLogits'}
+#  27: @construct.Default.1:reconstruction_loss{[0]: [CNode]25, [1]: pred_adj, [2]: adj}
+#  28: @construct.Default.1:[CNode]31{[0]: ValueNode<DoSignaturePrimitive> S-Prim-add, [1]: kl_loss, [2]: reconstruction_loss}
+#  29: @construct.Default.1:[CNode]33{[0]: ValueNode<Primitive> Return, [1]: [CNode]31}
+
+
+subgraph attr:
+subgraph instance: construct.SequentialCell.5 : 0x3c436070
+# In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:285/    def construct(self, input_data):/
+subgraph @construct.SequentialCell.5 parent: [subgraph @construct.Default.1](%para13_input_data) {
+
+#------------------------> 1
+  %1([CNode]34) = call @↵construct.SequentialCell.6(I64(0), %para13_input_data)
+      : (<Int64, NoShape>, <Tuple[Tensor[Float64],Tensor[Int64]], TupleShape((80, 50), (80, 100))>) -> (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  Return(%1)
+      : (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+}
+# order:
+#   1: @construct.SequentialCell.5:[CNode]35{[0]: ValueNode<FuncGraph> ms_len_with_iterable_check.36, [1]: [CNode]37}
+#   2: @construct.SequentialCell.5:[CNode]34{[0]: ValueNode<FuncGraph> ↵construct.SequentialCell.6, [1]: ValueNode<Int64Imm> 0, [2]: input_data}
+#   3: @construct.SequentialCell.5:[CNode]38{[0]: ValueNode<Primitive> Return, [1]: [CNode]34}
+
+
+subgraph attr:
+subgraph instance: ↵construct.SequentialCell.6 : 0x3c4a8740
+# In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+subgraph @↵construct.SequentialCell.6 parent: [subgraph @construct.SequentialCell.5](%para14_, %para15_) {
+  %1([CNode]37) = $(construct.SequentialCell.5):MakeTuple(call @construct.Dense.9, call @construct.ReLU.39, call @construct.Dense.40, call @construct.ReLU.41, call @construct.Dense.42)
+      : (<Func, NoShape>, <Func, NoShape>, <Func, NoShape>, <Func, NoShape>, <Func, NoShape>) -> (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %2([CNode]35) = $(construct.SequentialCell.5):call @ms_len_with_iterable_check.36(%1)
+      : (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>) -> (<Int64, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %3([CNode]43) = MultitypeFuncGraph-less{(List, List), (Tensor, Number), (Tensor, Tensor), (Tuple, Tuple), (Number, Tensor), (String, String), (Number, Number)}(%para14_@[CNode]7, %2)
+      : (<Int64, NoShape>, <Int64, NoShape>) -> (<Bool, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %4([CNode]44) = Switch(%3, call @↻construct.SequentialCell.8, call @↓construct.SequentialCell.45)
+      : (<Bool, NoShape>, <Func, NoShape>, <Func, NoShape>) -> (<Func, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+
+#------------------------> 2
+  %5([CNode]46) = %4()
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  Return(%5)
+      : (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+}
+# order:
+#   1: @↵construct.SequentialCell.6:[CNode]43{[0]: ValueNode<MultitypeFuncGraph> MetaFuncGraph-less.47, [1]: @[CNode]7, [2]: [CNode]35}
+#   2: @↵construct.SequentialCell.6:[CNode]44{[0]: ValueNode<Primitive> Switch, [1]: [CNode]43, [2]: ValueNode<FuncGraph> ↻construct.SequentialCell.8, [3]: ValueNode<FuncGraph> ↓construct.SequentialCell.45}
+#   3: @↵construct.SequentialCell.6:[CNode]46{[0]: [CNode]44}
+#   4: @↵construct.SequentialCell.6:[CNode]48{[0]: ValueNode<Primitive> Return, [1]: [CNode]46}
+
+
+subgraph attr:
+subgraph instance: ↻construct.SequentialCell.8 : 0x3c4a4930
+# In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+subgraph @↻construct.SequentialCell.8 parent: [subgraph @↵construct.SequentialCell.6]() {
+  %1([CNode]7) = MultitypeFuncGraph-add{(COOTensor, COOTensor), (CSRTensor, CSRTensor), (Number, Number), (String, String), (Tensor, List), (Tuple, Tuple), (Tensor, Number), (Number, Tensor), (Tuple, Tensor), (Tensor, Tuple), (COOTensor, Tensor), (List, List), (Tensor, COOTensor), (Tensor, Tensor), (List, Tensor), (RowTensor, Tensor), (NoneType, NoneType)}(%para14_@[CNode]7, I64(1))
+      : (<Int64, NoShape>, <Int64, NoShape>) -> (<Int64, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %2([CNode]49) = StopGradient(%1)
+      : (<Int64, NoShape>) -> (<Int64, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  %3([CNode]37) = $(construct.SequentialCell.5):MakeTuple(call @construct.Dense.9, call @construct.ReLU.39, call @construct.Dense.40, call @construct.ReLU.41, call @construct.Dense.42)
+      : (<Func, NoShape>, <Func, NoShape>, <Func, NoShape>, <Func, NoShape>, <Func, NoShape>) -> (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %4([CNode]51) = call @ms_iter.50(%3)
+      : (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>) -> (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %5(cell) = S-Prim-getitem(%4, %para14_@[CNode]7)
+      : (<Tuple[Func*5], TupleShape(NoShape, NoShape, NoShape, NoShape, NoShape)>, <Int64, NoShape>) -> (<Func, NoShape>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+
+#------------------------> 3
+  %6(input_data) = %5(%para15_фinput_data)
+      : (<Tuple[Tensor[Float64],Tensor[Int64]], TupleShape((80, 50), (80, 100))>) -> (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:287/            input_data = cell(input_data)/
+  %7([CNode]52) = call @↵construct.SequentialCell.6(%1, %6)
+      : (<Int64, NoShape>, <null>) -> (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %8([CNode]53) = Depend[side_effect_propagate=I64(1)](%7, %2)
+      : (<null>, <Int64, NoShape>) -> (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/codelab/VGAE/VGAE.py:33/        z_mean, z_log_var = self.encoder(x).chunk(2, axis=1)/
+  Return(%8)
+      : (<null>)
+      #scope: (Default/encoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+}
+# order:
+#   1: @↻construct.SequentialCell.8:[CNode]51{[0]: ValueNode<FuncGraph> ms_iter.50, [1]: [CNode]37}
+#   2: @↻construct.SequentialCell.8:cell{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]51, [2]: @[CNode]7}
+#   3: @↻construct.SequentialCell.8:[CNode]7{[0]: ValueNode<MultitypeFuncGraph> MetaFuncGraph-add.54, [1]: @[CNode]7, [2]: ValueNode<Int64Imm> 1}
+#   4: @↻construct.SequentialCell.8:input_data{[0]: cell, [1]: фinput_data}
+#   5: @↻construct.SequentialCell.8:[CNode]52{[0]: ValueNode<FuncGraph> ↵construct.SequentialCell.6, [1]: [CNode]7, [2]: input_data}
+#   6: @↻construct.SequentialCell.8:[CNode]55{[0]: ValueNode<Primitive> Return, [1]: [CNode]53}
+
+
+subgraph attr:
+subgraph instance: construct.Dense.9 : 0x3c54d280
+# In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:595/    def construct(self, x):/
+subgraph @construct.Dense.9 parent: [subgraph @construct.Default.1](%para16_x) {
+
+#------------------------> 4
+  %1([CNode]56) = call @L-construct.Dense.10(%para16_x, %para7_encoder.0.bias, %para8_encoder.0.weight)
+      : (<Tuple[Tensor[Float64],Tensor[Int64]], TupleShape((80, 50), (80, 100))>, <Ref[Tensor[Float32]], (32)>, <Ref[Tensor[Float32]], (32, 50)>) -> (<null>)
+      #scope: (Default)
+  Return(%1)
+      : (<null>)
+      #scope: (Default/encoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+}
+# order:
+#   1: @construct.Dense.9:[CNode]56{[0]: ValueNode<FuncGraph> L-construct.Dense.10, [1]: x, [2]: encoder.0.bias, [3]: encoder.0.weight}
+#   2: @construct.Dense.9:[CNode]57{[0]: ValueNode<Primitive> Return, [1]: [CNode]56}
+
+
+subgraph attr:
+subgraph instance: L-construct.Dense.10 : 0x3c5f9160
+# In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:595/    def construct(self, x):/
+subgraph @L-construct.Dense.10(%para17_x, %para18_, %para19_) {
+
+#------------------------> 5
+  %1(фx_shape) = S-Prim-Shape(%para17_x)
+      : (<Tuple[Tensor[Float64],Tensor[Int64]], TupleShape((80, 50), (80, 100))>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:605/        if len(x_shape) != 2:/
+  %2([CNode]58) = S-Prim-check_dense_input_shape[constexpr_prim=Bool(1)](%1, "Dense")
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:597/        check_dense_input_shape(x_shape, self.cls_name)/
+  %3([CNode]59) = StopGradient(%2)
+      : (<null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %4([CNode]61) = call @L-ms_len.60(%1)
+      : (<null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+  %5([CNode]62) = S-Prim-not_equal(%4, I64(2))
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+  %6([CNode]64) = call @L-bool_.63(%5)
+      : (<null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+  %7([CNode]65) = Switch(%6, call @L-✓construct.Dense.66, call @L-✗construct.Dense.67)
+      : (<null>, <null>, <null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+  %8([CNode]68) = %7()
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+  %9([CNode]70) = call @L-↓construct.Dense.69(%8)
+      : (<null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  %10([CNode]71) = Depend[side_effect_propagate=I64(1)](%9, %3)
+      : (<null>, <null>) -> (<null>)
+      #scope: (Default/decoder-SequentialCell)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/container.py:286/        for cell in self.cell_list:/
+  Return(%10)
+      : (<null>)
+      #scope: (Default/decoder-SequentialCell/0-Dense)
+      # In file /home/wmq/.local/lib/python3.9/site-packages/mindspore/nn/layer/basic.py:598/        if len(x_shape) != 2:/
+}
+# order:
+#   1: @L-construct.Dense.10:фx_shape{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Shape, [1]: x}
+#   2: @L-construct.Dense.10:[CNode]58{[0]: ValueNode<DoSignaturePrimitive> S-Prim-check_dense_input_shape, [1]: фx_shape, [2]: ValueNode<StringImm> Dense}
+#   3: @L-construct.Dense.10:[CNode]61{[0]: ValueNode<FuncGraph> L-ms_len.60, [1]: фx_shape}
+#   4: @L-construct.Dense.10:[CNode]62{[0]: ValueNode<DoSignaturePrimitive> S-Prim-not_equal, [1]: [CNode]61, [2]: ValueNode<Int64Imm> 2}
+#   5: @L-construct.Dense.10:[CNode]64{[0]: ValueNode<FuncGraph> L-bool_.63, [1]: [CNode]62}
+#   6: @L-construct.Dense.10:[CNode]65{[0]: ValueNode<Primitive> Switch, [1]: [CNode]64, [2]: ValueNode<FuncGraph> L-✓construct.Dense.66, [3]: ValueNode<FuncGraph> L-✗construct.Dense.67}
+#   7: @L-construct.Dense.10:[CNode]68{[0]: [CNode]65}
+#   8: @L-construct.Dense.10:[CNode]70{[0]: ValueNode<FuncGraph> L-↓construct.Dense.69, [1]: [CNode]68}
+#   9: @L-construct.Dense.10:[CNode]71{[0]: ValueNode<Primitive> Depend, [1]: [CNode]70, [2]: [CNode]59}
+#  10: @L-construct.Dense.10:[CNode]72{[0]: ValueNode<Primitive> Return, [1]: [CNode]71}
+
+
+#===============================================================================
+# num of function graphs in stack: 6/7 (Ignored 1 internal frames).
